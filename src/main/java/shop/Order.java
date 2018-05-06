@@ -22,7 +22,12 @@ public class Order {
     }
 
     public void addItem(Product prod, int quantity) {
-        items.add(new OrderItem(prod, quantity));
+        if (quantity <= prod.getStockQuantity()) {
+            prod.setStockQuantity(prod.getStockQuantity() - quantity);
+            items.add(new OrderItem(prod, quantity));
+        } else {
+            throw new RuntimeException("Not enough product(s) in stock");
+        }
     }
 
     public double getTotal() {
